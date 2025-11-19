@@ -1,0 +1,62 @@
+ASG Notes for creating in Console
+
+Must have 2 separate security groups for ASGs and Application Load Balancers.
+Every service has to have a security group associated with it.
+
+Application Load Balancers will be in the Public Subnet. People on the internet are going to accessing the EC2s from the load balancer.
+
+EC2s will be existing in the private subnet, and these are part of the ASG (Auto Scaling Group).
+
+There may be more than one ASG or ALB, naming convention will be numbered.
+
+ASG and LB can only accept traffic from one application per port.
+
+From the ALB to the ASG, the traffic is unencrypted.
+
+Load Balancer must have at MINIMUM 2 AZs to work with.
+
+
+Steps for building ASG:
+1. Build a VPC
+-Sao Paulo AZ 1-b do not work properly for ASGs
+-May not want to use Tokyo
+
+2. Create a security group for your load balancer and ASG target group
+-Inbound rules http Port 80 Anywhere IpV4 for both
+
+3. Create an EC2 template
+-AMIs have a different number that's different in every region
+-Name the template
+-Choose the AMI
+-Select the instance type
+-Choose a key pair
+-DO NOT INCLUDE SUBNETS IN TEMPLATE
+-Select existing security group (Use the Target Group Security Group)
+
+4. Create Target Group
+-Default value is instances
+-Default port is port 80
+-Default IP is IPv4
+-Change default VPC to custom VPC
+-Ignore the second page and just click the create target group button
+
+
+5. Create Load Balancer
+-Click create on Application Load Balancer
+-Default scheme is internet facing, keep it on that
+-Default IP address is IPv4, keep it on that
+-Choose the custom VPC, and the mappings must be to the public subnets
+-Choose the Load Balancer Security Group
+-Listeners and routing should be HTTP port 80, select the target group
+-Ignore the rest for now and create a load balancer
+
+
+6. Create Auto Scaling Group
+-Choose the 01 Template, click next
+-Choose the custom VPC, and choose the private subnets then click next
+-Attach to existing LB
+-Choose from LB target groups
+-No VPC Lattice service 
+-Health checks are optional
+-Bare minimum 1 EC2 instance per AZ 
+-Desired capacity 9, min is 6 max is 15
