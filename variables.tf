@@ -33,28 +33,6 @@ variable "public_subnet_config" {
   }
 }
 
-variable "bastion_and_rdp_subnet_config" {
-  type = map(object({
-    cidr_block = string
-    az         = string
-  }))
-  description = "Bastion and RDP subnet cidr and az configuration"
-  default = {
-    "bastion_class_7_subnet_1" = {
-      cidr_block = "10.80.16.0/24"
-      az         = "eu-west-2a"
-    }
-    "bastion_class_7_subnet_2" = {
-      cidr_block = "10.80.17.0/24"
-      az         = "eu-west-2b"
-    }
-    "bastion_class_7_subnet_3" = {
-      cidr_block = "10.80.18.0/24"
-      az         = "eu-west-2c"
-    }
-  }
-}
-
 variable "private_subnet_config" {
   type = map(object({
     cidr_block = string
