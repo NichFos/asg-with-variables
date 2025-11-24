@@ -1,4 +1,4 @@
-ASG Notes for creating in Console
+ASG Notes for creating Auto Scaling Group in Console
 
 Must have 2 separate security groups for ASGs and Application Load Balancers.
 Every service has to have a security group associated with it.
